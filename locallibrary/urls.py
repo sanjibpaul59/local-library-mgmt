@@ -27,6 +27,7 @@ router.register(r"groups", views.GroupViewSet)
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
+    path("catalog/", include("catalog.urls")),
     path("api/auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
