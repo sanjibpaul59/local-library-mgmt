@@ -44,7 +44,7 @@ class Book(models.Model):
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     # ManyToManyField used because a genre can contain many books and a Book can cover many genres.
     # Genre class has already been defined so we can specify the object above.
-    language = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
+    language = models.ManyToManyField(Language, help_text="Select Languages in which the book was published")
 
     class Meta:
         ordering = ["title", "author"]
@@ -114,6 +114,9 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
         return reverse("author-detail", args=[str(self.id)])
+
+    def get_full_name(self):
+        return "{0}, {1}".format(self.first_name, self.last_name)
 
     def __str__(self):
         """String for representing the Model object."""

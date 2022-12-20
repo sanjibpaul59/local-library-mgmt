@@ -4,8 +4,9 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import UserSerializer, GroupSerializer
-from .models import Author, Book, BookInstance, Genre
+from rest_framework import generics
+from .serializers import *
+from .models import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -43,3 +44,33 @@ class HomeView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class BookList(generics.ListCreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookListSerializer
+
+
+class BookDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+
+class AuthorList(generics.ListCreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorListSerializer
+
+
+class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class LanguageDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+
+class GenreDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
