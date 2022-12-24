@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/local_library
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'db'
+    networks:
+      - djangoNet
+  db:
+    image: mysql:8
+    ports:
+      - '3308:3306'
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_HOST: 'localhost'
+      TZ: 'Asia/Dhaka'
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - djangoNet
+    # command: mysqld --character-set-server=utfmb4 --collation-server=utfmb4_unicode_ci
+networks:
+  djangoNet:
