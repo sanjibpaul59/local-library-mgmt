@@ -3,6 +3,13 @@ version: '3.9'
 services:
   web:
     build: .
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py makemigrations
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8080
     volumes:
       - .:/local_library
     ports:
@@ -30,5 +37,26 @@ services:
     networks:
       - djangoNet
     # command: mysqld --character-set-server=utfmb4 --collation-server=utfmb4_unicode_ci
+
+  # migration:
+  #   # build: .
+  #   command: 'python manage.py migrate'
+  #   volumes:
+  #     - .:/local_library
+  #   depends_on:
+  #     - 'db'
+  #     - 'make-migrations'
+  #   networks:
+  #     - djangoNet
+
+  # make-migrations:
+  #   build: .
+  #   command: 'python manage.py makemigrations'
+  #   volumes:
+  #     - .:/local_library
+  #   depends_on:
+  #     - 'db'
+  #   networks:
+  #     - djangoNet
 networks:
   djangoNet:
